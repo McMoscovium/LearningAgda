@@ -144,4 +144,13 @@ open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _∸_; _^_)
     *-assoc m (m ^ p) (n * n ^ p)
   = refl
 
-^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ n (n * p)
+^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ (n * p)
+^-*-assoc m n zero
+  rewrite *-zero n
+  = refl
+^-*-assoc m n (suc p)
+  rewrite
+    *-suc n p |
+    ^-*-assoc m n p |
+    ^-distribˡ+-* m n (n * p)
+  = refl
